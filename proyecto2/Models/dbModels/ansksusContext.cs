@@ -47,9 +47,11 @@ namespace proyecto2.Models.dbModels
                     .HasForeignKey(d => d.IdCategoria)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_cuestionario_categoria");
+            
 
-                entity.HasOne(d => d.IdUsuarioNavigation)
+               entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Cuestionarios)
+
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_cuestionario_usuario");

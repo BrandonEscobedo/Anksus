@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\proyecto2",
+    "\\proyecto2\\Areas",
+    "\\proyecto2\\Areas\\Identity",
+    "\\proyecto2\\Areas\\Identity\\Pages",
+    "\\proyecto2\\Areas\\Identity\\Pages\\Account",
+    "\\proyecto2\\Migrations"
+  ],
+  "SelectedNode": "\\proyecto2\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+  "PreviewInSolutionExplorer": false
+}

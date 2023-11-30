@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\brand\\source\\repos\\proyecto2\\proyecto2\\proyecto2.csproj": {}
+    "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\proyecto2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\brand\\source\\repos\\proyecto2\\proyecto2\\proyecto2.csproj": {
+    "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\proyecto2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\brand\\source\\repos\\proyecto2\\proyecto2\\proyecto2.csproj",
+        "projectUniqueName": "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\proyecto2.csproj",
         "projectName": "proyecto2",
-        "projectPath": "C:\\Users\\brand\\source\\repos\\proyecto2\\proyecto2\\proyecto2.csproj",
+        "projectPath": "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\proyecto2.csproj",
         "packagesPath": "C:\\Users\\brand\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\brand\\source\\repos\\proyecto2\\proyecto2\\obj\\",
+        "outputPath": "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\brand\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.telerik.com/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -75,8 +80,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -88,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
