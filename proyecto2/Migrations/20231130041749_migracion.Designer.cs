@@ -12,8 +12,8 @@ using proyecto2.Models.dbModels;
 namespace proyecto2.Migrations
 {
     [DbContext(typeof(ansksusContext))]
-    [Migration("20231124012859_init")]
-    partial class init
+    [Migration("20231130041749_migracion")]
+    partial class migracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
