@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using proyecto2.Models.dbModels;
 
 namespace proyecto2.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class CuestionariosController : Controller
     {
         private readonly ansksusContext _context;
@@ -18,7 +20,7 @@ namespace proyecto2.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         // GET: Cuestionarios
         public async Task<IActionResult> Index()
         {
