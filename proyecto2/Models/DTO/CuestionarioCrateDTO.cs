@@ -1,41 +1,34 @@
 ﻿using MessagePack;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using proyecto2.Models.dbModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace proyecto2.Models
+namespace proyecto2.Models.DTO
 {
-   
-    public class CuestionarioHR
+    public class CuestionarioCrateDTO
     {
-        //Tabla Cuestionario
-        [Required]
-        public int IdCuestionario { get; set; }
-        [Required]
-     
-        public int IdUsuario { get; set; }
-        [Required]
 
+
+        [Column("id_cuestionario")]
+        public int IdCuestionario { get; set; }
+        [Column("id_usuario")]
+        public int IdUsuario { get; set; }
         public int IdCategoria { get; set; }
-     
+        [Column("estado")]
         public bool Estado { get; set; }
-        [StringLength(50)]
+        [Column("titulo")]
+        [StringLength(60)]
         public string? Titulo { get; set; }
-     
+        [Column("publico")]
         public bool Publico { get; set; }
 
-      
-        //tabla Preguntas
-      public class pregunta
-        {
-            public int IdPregunta { get; set; }
+        [JsonIgnore]
+        [IgnoreMember]
+        [IgnoreDataMember]
+        public SelectList? categoria { get; set; }
 
-            public string Respuesta { get; set; } = null!;
 
-            public bool Estado_Pregunta { get; set; }
-        }
     }
 }

@@ -391,7 +391,7 @@ namespace proyecto2.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_cuestionario");
 
-                    b.Property<string>("Respuesta")
+                    b.Property<string>("pregunta")
                         .IsRequired()
                         .HasMaxLength(400)
                         .IsUnicode(false)
@@ -419,16 +419,16 @@ namespace proyecto2.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_pregunta");
 
-                    b.Property<string>("Pregunta")
+                    b.Property<bool>("RCorrecta")
+                        .HasColumnType("bit")
+                        .HasColumnName("R_correcta");
+
+                    b.Property<string>("respuesta")
                         .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(false)
                         .HasColumnType("varchar(200)")
                         .HasColumnName("pregunta");
-
-                    b.Property<bool>("RCorrecta")
-                        .HasColumnType("bit")
-                        .HasColumnName("R_correcta");
 
                     b.HasKey("IdRespuesta")
                         .HasName("PK__respuest__14E55589836F7548");

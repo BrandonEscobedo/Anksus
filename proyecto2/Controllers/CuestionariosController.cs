@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,14 @@ namespace proyecto2.Controllers
     public class CuestionariosController : Controller
     {
         private readonly ansksusContext _context;
-
-        public CuestionariosController(ansksusContext context)
+        private readonly UserManager<AplicationUser> _userManager;
+        public CuestionariosController(ansksusContext context,UserManager<AplicationUser> usermanger)
         {
+           
             _context = context;
+            _userManager = usermanger;
         }
-        [AllowAnonymous]
-        // GET: Cuestionarios
+      
         public async Task<IActionResult> Index()
         {
             var ansksusContext = _context.Cuestionarios.Include(c => c.IdCategoriaNavigation).Include(c => c.IdUsuarioNavigation);
@@ -52,7 +54,8 @@ namespace proyecto2.Controllers
         // GET: Cuestionarios/Create
         public IActionResult Create()
         {
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria");
+           
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
             
             return View();
@@ -65,11 +68,13 @@ namespace proyecto2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdCuestionario,IdUsuario,IdCategoria,Estado,Titulo,Publico")] CuestionarioHR cuestionario)
         {
+            var user = await _userManager.GetUserAsync(User);
+
             if (ModelState.IsValid)
             {
                 Cuestionario cuest = new Cuestionario{
                 IdCategoria = cuestionario.IdCategoria,
-                IdUsuario=cuestionario.IdUsuario,
+                IdUsuario = user.Id,
                Estado=cuestionario.Estado,
                Titulo=cuestionario.Titulo,
                Publico=cuestionario.Publico

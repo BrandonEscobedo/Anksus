@@ -17,7 +17,7 @@ namespace proyecto2.Models.dbModels
         [Column("pregunta")]
         [StringLength(200)]
         [Unicode(false)]
-        public string Pregunta { get; set; } = null!;
+        public string respuesta { get; set; } = null!;
         [Column("R_correcta")]
         public bool RCorrecta { get; set; }
 

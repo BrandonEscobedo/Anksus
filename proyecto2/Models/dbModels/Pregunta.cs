@@ -22,7 +22,7 @@ namespace proyecto2.Models.dbModels
         [Column("respuesta")]
         [StringLength(400)]
         [Unicode(false)]
-        public string Respuesta { get; set; } = null!;
+        public string pregunta { get; set; } = null!;
         [Column("estado")]
         public bool Estado { get; set; }
 
