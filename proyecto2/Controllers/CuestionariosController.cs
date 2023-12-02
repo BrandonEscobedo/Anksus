@@ -12,7 +12,7 @@ using proyecto2.Models.dbModels;
 
 namespace proyecto2.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "ADMIN")]
     public class CuestionariosController : Controller
     {
         private readonly ansksusContext _context;
