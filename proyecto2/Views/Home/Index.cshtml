@@ -1,8 +1,95 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-}
+    ViewData["Index"] = "Index";
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+}
+   <link rel="stylesheet" href="~/css/index.css">
+<body>
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-4">
+                <p class="mt-2">¿Quieres unirte a una sesión? Ingresa el código aquí:</p>
+            </div>
+            <div class="col-md-8">
+                <form class="form-inline w-25">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="sessionCode" placeholder="Código">
+                        <button><a href="Pages/game_W-room.html">juego</a></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <section class="blue-background">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-light">Crea cuestionarios en línea en cualquier momento.</h4>
+                    <p class="text-light">Haz de tus clases algo más interactivo y divertido para tus alumnos o compañeros de clase</p>
+                    <a href="#" class="btn btn-success btn-block">Empezar ahora</a>
+                </div>
+                <div class="col-md-6 d-none d-lg-block">
+                    <div class="row justify-content-end">
+                        <div class="col-md-6">
+                            <img class="w-75" src="Images/EmpiezaYa1.png" class="img-fluid" alt="Imagen 1">
+                        </div>
+                        <div class="col-md-6">
+                            <img class="w-75" src="Images/EmpiezaYa2.png" class="img-fluid" alt="Imagen 2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="white-box bg-white rounded p-3 w-75">
+                    <h4>¿Cómo funciona?</h4>
+                    <p class="small">Aprende ahora a usar esta plataforma</p>
+                    <a href="#" class="btn btn-primary">Da click aquí</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="white-box bg-white rounded p-3 w-75 h-100">
+                    <h4>¿Nuestra aplicación tiene costo?</h4>
+                    <p class="small">Todas las plantillas, cuestionarios y funciones son totalmente gratuitas</p>
+                </div>
+            </div>
+        </div>
+    </div>    
+    
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="font-weight-bold">Cuestionarios públicos</h4>
+                <div class="ml-4 p-2">
+                    <h5 class="p-1"><a class="small text-decoration-none" href="URL_DEL_PRIMER_LINK">Idiomas</a></h5>
+                    <h5 class="p-1"><a class="small text-decoration-none" href="URL_DEL_SEGUNDO_LINK">Matemáticas</a></h5>
+                    <h5 class="p-1"><a class="small text-decoration-none" href="URL_DEL_TERCER_LINK">Cultura general</a></h5>
+                    <h5 class="p-1"><a class="small text-decoration-none" href="URL_DEL_CUARTO_LINK">Super héroes</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-2 col-md-2">
+                    <img class="navbar-logo" src="Images/Logo.png" alt="!¿Ansks Us?!-Logo" style="max-height: 30px;">
+                </div>
+                <div class="col-10 col-md-10 text-left">
+                    <a href="URL_DE_POLITICAS_DE_PRIVACIDAD" style="text-decoration: none; color: #000;">Políticas de privacidad</a>
+                    
+                    <span class="ps-3" id="derechos">Todos los derechos reservados</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+</body>
