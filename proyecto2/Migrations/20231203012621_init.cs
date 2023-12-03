@@ -245,7 +245,7 @@ namespace proyecto2.Migrations
                     id_pregunta = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     id_cuestionario = table.Column<int>(type: "int", nullable: false),
-                    respuesta = table.Column<string>(type: "varchar(400)", unicode: false, maxLength: 400, nullable: false),
+                    pregunta = table.Column<string>(type: "varchar(400)", unicode: false, maxLength: 400, nullable: false),
                     estado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -287,7 +287,7 @@ namespace proyecto2.Migrations
                     id_respuesta = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     id_pregunta = table.Column<int>(type: "int", nullable: false),
-                    pregunta = table.Column<string>(type: "varchar(200)", unicode: false, maxLength: 200, nullable: false),
+                    respuesta = table.Column<string>(type: "varchar(200)", unicode: false, maxLength: 200, nullable: false),
                     R_correcta = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

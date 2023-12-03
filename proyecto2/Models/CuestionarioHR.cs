@@ -1,6 +1,7 @@
 ﻿using MessagePack;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using proyecto2.Models.dbModels;
+using proyecto2.Models.DTO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -20,22 +21,30 @@ namespace proyecto2.Models
         [Required]
 
         public int IdCategoria { get; set; }
-     
-        public bool Estado { get; set; }
+
+        public bool Estado { get; set; } = false;
         [StringLength(50)]
         public string? Titulo { get; set; }
      
         public bool Publico { get; set; }
+    
+     public List<RespuestaDTO> Respuestas { get; set; } = new List<RespuestaDTO>();
+        [Required]
+        public int IdPregunta { get; set; }
 
-      
-        //tabla Preguntas
-      public class pregunta
-        {
-            public int IdPregunta { get; set; }
+        public bool EstadoPregunta { get; set; } = false!;
+        public string preguntatexto { get; set; } = null!;
+        /*/
+     public int IdRespuesta { get; set; }
 
-            public string Respuesta { get; set; } = null!;
+     [StringLength(200)]
 
-            public bool Estado_Pregunta { get; set; }
-        }
+     public string respuesta { get; set; } = null!;
+
+     public bool RCorrecta { get; set; }
+     /*/
     }
+
+
+
 }

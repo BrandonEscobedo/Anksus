@@ -9,14 +9,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using proyecto2.Models;
 using proyecto2.Models.dbModels;
+using proyecto2.Models.DTO;
+using proyecto2.ViewModel;
 
 namespace proyecto2.Controllers
 {
-    [Authorize(Roles = "ADMIN")]
+
     public class CuestionariosController : Controller
     {
         private readonly ansksusContext _context;
         private readonly UserManager<AplicationUser> _userManager;
+      
         public CuestionariosController(ansksusContext context,UserManager<AplicationUser> usermanger)
         {
            
@@ -26,6 +29,7 @@ namespace proyecto2.Controllers
       
         public async Task<IActionResult> Index()
         {
+          
             var ansksusContext = _context.Cuestionarios.Include(c => c.IdCategoriaNavigation).Include(c => c.IdUsuarioNavigation);
             return View(await ansksusContext.ToListAsync());
         }
@@ -37,7 +41,7 @@ namespace proyecto2.Controllers
             {
                 return NotFound();
             }
-
+          
             var cuestionario = await _context.Cuestionarios
                 .Include(c => c.IdCategoriaNavigation)
                 .Include(c => c.IdUsuarioNavigation)
@@ -54,10 +58,11 @@ namespace proyecto2.Controllers
         // GET: Cuestionarios/Create
         public IActionResult Create()
         {
-           
+
+          
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
-            
+           
             return View();
         }
 
@@ -66,31 +71,60 @@ namespace proyecto2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCuestionario,IdUsuario,IdCategoria,Estado,Titulo,Publico")] CuestionarioHR cuestionario)
+        public async Task<IActionResult> Create(CuestionarioHR cuestHR)
         {
             var user = await _userManager.GetUserAsync(User);
-
+         
             if (ModelState.IsValid)
             {
-                Cuestionario cuest = new Cuestionario{
-                IdCategoria = cuestionario.IdCategoria,
-                IdUsuario = user.Id,
-               Estado=cuestionario.Estado,
-               Titulo=cuestionario.Titulo,
-               Publico=cuestionario.Publico
+                Cuestionario cuest = new Cuestionario
+                {
+                    IdCuestionario = cuestHR.IdCuestionario,
+                    Estado = cuestHR.Estado,
+                    Titulo = cuestHR.Titulo,
+                    IdCategoria = cuestHR.IdCategoria,
+                    Publico = cuestHR.Publico,
+                    IdUsuario = user.Id
 
-
+                    
                 };
+                _context.Add(cuest);
+                await _context.SaveChangesAsync();
+                int idcuestionarioP = cuest.IdCuestionario;
+                Pregunta preg = new Pregunta
+                {
+                    pregunta = cuestHR.preguntatexto,
+                    IdPregunta = cuestHR.IdPregunta,
+                    IdCuestionario = idcuestionarioP,
+                    Estado = cuestHR.EstadoPregunta
+           };      
+                _context.Add(preg);
+                await _context.SaveChangesAsync();
+                int idpreguntaP=preg.IdPregunta;
+              
+               
+               foreach(var resp in cuestHR.Respuestas)
+                {
+                    Respuesta respuestaR = new Respuesta
+                    {
+                        IdPregunta = idpreguntaP,
+                        IdRespuesta = resp.IdRespuesta,
+                        respuesta = resp.respuesta,
+                        RCorrecta = resp.RCorrecta,
 
-                _context.Cuestionarios.Add(cuest);
+                    };
+                    _context.Add(respuestaR);
+                }
+              
+            
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", cuestionario.IdCategoria);
-            ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id", cuestionario.IdUsuario);
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", cuestHR.IdCategoria);
+            ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id", cuestHR.IdUsuario);
 
            
-            return View(cuestionario);
+            return View(cuestHR);
         }
 
         // GET: Cuestionarios/Edit/5

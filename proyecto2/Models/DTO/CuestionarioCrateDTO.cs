@@ -9,7 +9,7 @@ namespace proyecto2.Models.DTO
 {
     public class CuestionarioCrateDTO
     {
-
+        
 
         [Column("id_cuestionario")]
         public int IdCuestionario { get; set; }

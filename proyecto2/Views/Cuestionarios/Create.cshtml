@@ -1,7 +1,9 @@
-﻿@model CuestionarioHR
+﻿@using proyecto2.ViewModel
+@model CuestionarioHR
 
 @{
     ViewData["Title"] = "Create";
+
 }
 
 <h1>Create</h1>
@@ -12,30 +14,42 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
+  
             <div class="form-group">
-                <label asp-for="IdCategoria" class="control-label"></label>
+                <label asp-for="IdCategoria" class="control-label">Categoria</label>
                 <select asp-for="IdCategoria" class ="form-control" asp-items="ViewBag.IdCategoria"></select>
             </div>
           
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Estado" /> @Html.DisplayNameFor(model => model.Estado)
-                </label>
-            </div>
-                <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="" asp-for="Titulo" /> @Html.DisplayNameFor(model => model.Titulo)
-                </label>
+            <label>Titulo</label>
+               <div class="input-group-text">
+               
+                <input asp-for="Titulo" class="input"/>             
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Publico" /> @Html.DisplayNameFor(model => model.Publico)
                 </label>
             </div>
+             <div class="inpu-t-group-text">
+                  <label>Pregunta</label>
+                <input asp-for="preguntatexto" class="input"/>             
+            </div>
+   <div id="RespuestasContenedor">
+       <label>Respuestas</label>
+                @for(int i = 0; i < 5; i++)
+                {
+                    <input asp-for="Respuestas[i].respuesta" class="input"/>
+                    <label>Respuesta correcta</label>
+                  <input class="form-check-input" asp-for="Respuestas[i].RCorrecta"/>
+                  <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                   
+                }
+                 <button type="button" class="btn btn-primary add-respuesta">Agregar respuesta</button>
+   </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+          
         </form>
     </div>
 </div>
@@ -46,4 +60,28 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     <script>
+        $(document).ready(function () {
+            // Agregar respuesta
+            $(".add-respuesta").click(function () {
+                let respuestasContenedor = $("#RespuestasContenedor");
+                let ultimoIndice = respuestasContenedor.find(".dynamic-respuesta").last().index();
+                let siguienteIndice = ultimoIndice + 1;
+
+                let nuevaRespuesta = $(`<div class="dynamic-respuesta">
+                                        <input asp-for="Respuestas[${siguienteIndice}].respuesta" class="input" />
+                                        <label>Respuesta correcta</label>
+                                        <input class="form-check-input" asp-for="Respuestas[${siguienteIndice}].RCorrecta" />
+                                        <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                                    </div>`);
+
+                respuestasContenedor.append(nuevaRespuesta);
+            });
+
+            // Eliminar respuesta
+            $(".remove-respuesta").click(function () {
+                $(this).parent(".dynamic-respuesta").remove();
+            });
+        });
+    </script>
 }

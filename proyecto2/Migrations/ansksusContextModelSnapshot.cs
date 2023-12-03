@@ -396,7 +396,7 @@ namespace proyecto2.Migrations
                         .HasMaxLength(400)
                         .IsUnicode(false)
                         .HasColumnType("varchar(400)")
-                        .HasColumnName("respuesta");
+                        .HasColumnName("pregunta");
 
                     b.HasKey("IdPregunta")
                         .HasName("PK__pregunta__6867FFA45AFDA0E8");
@@ -428,7 +428,7 @@ namespace proyecto2.Migrations
                         .HasMaxLength(200)
                         .IsUnicode(false)
                         .HasColumnType("varchar(200)")
-                        .HasColumnName("pregunta");
+                        .HasColumnName("respuesta");
 
                     b.HasKey("IdRespuesta")
                         .HasName("PK__respuest__14E55589836F7548");

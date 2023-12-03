@@ -19,7 +19,7 @@ namespace proyecto2.Models.dbModels
         public int IdPregunta { get; set; }
         [Column("id_cuestionario")]
         public int IdCuestionario { get; set; }
-        [Column("respuesta")]
+        [Column("pregunta")]
         [StringLength(400)]
         [Unicode(false)]
         public string pregunta { get; set; } = null!;
