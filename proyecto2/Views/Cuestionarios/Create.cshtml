@@ -38,10 +38,14 @@
        <label>Respuestas</label>
                 @for(int i = 0; i < 5; i++)
                 {
+                    <div class="dynamic-respuesta">
+
+                  
                     <input asp-for="Respuestas[i].respuesta" class="input"/>
                     <label>Respuesta correcta</label>
                   <input class="form-check-input" asp-for="Respuestas[i].RCorrecta"/>
                   <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                    </div>
                    
                 }
                  <button type="button" class="btn btn-primary add-respuesta">Agregar respuesta</button>
@@ -79,7 +83,7 @@
             });
 
             // Eliminar respuesta
-            $(".remove-respuesta").click(function () {
+            $("#RespuestasContenedor").on("click", ".remove-respuesta", function () {
                 $(this).parent(".dynamic-respuesta").remove();
             });
         });
