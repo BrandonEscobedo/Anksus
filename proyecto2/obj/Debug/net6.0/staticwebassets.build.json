@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "TZyxEf/fM62mpMqVUAUZvGjLenGhYAxNOnDVV2JbQc8=",
+  "Hash": "FoNDqrESJ5k0kLv8UCdYHkANwlCBJ0wl/QV/sdHOJP8=",
   "Source": "proyecto2",
   "BasePath": "_content/proyecto2",
   "Mode": "Default",
@@ -1086,6 +1086,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\index.css"
+    },
+    {
+      "Identity": "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\wwwroot\\css\\pages.css",
+      "SourceId": "proyecto2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\wwwroot\\",
+      "BasePath": "_content/proyecto2",
+      "RelativePath": "css/pages.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\pages.css"
     },
     {
       "Identity": "C:\\Users\\brand\\Documents\\Proyecto AnksUs\\Anksus\\proyecto2\\wwwroot\\css\\site.css",

@@ -59,11 +59,13 @@ namespace proyecto2.Controllers
         public IActionResult Create()
         {
 
-          
+            var model = new CuestionarioHR();
+        
+
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
            
-            return View();
+            return View(model);
         }
 
         // POST: Cuestionarios/Create
@@ -74,7 +76,8 @@ namespace proyecto2.Controllers
         public async Task<IActionResult> Create(CuestionarioHR cuestHR)
         {
             var user = await _userManager.GetUserAsync(User);
-         
+          
+
             if (ModelState.IsValid)
             {
                 Cuestionario cuest = new Cuestionario
@@ -98,7 +101,7 @@ namespace proyecto2.Controllers
                     IdCuestionario = idcuestionarioP,
                     Estado = cuestHR.EstadoPregunta
            };      
-                _context.Add(preg);
+                _context.Preguntas.Add(preg);
                 await _context.SaveChangesAsync();
                 int idpreguntaP=preg.IdPregunta;
               
@@ -116,8 +119,7 @@ namespace proyecto2.Controllers
                     _context.Add(respuestaR);
                 }
               
-            
-                await _context.SaveChangesAsync();
+                  await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", cuestHR.IdCategoria);

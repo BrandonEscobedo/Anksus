@@ -29,11 +29,17 @@ namespace proyecto2.Models
         public bool Publico { get; set; }
     
      public List<RespuestaDTO> Respuestas { get; set; } = new List<RespuestaDTO>();
+        public List<preguntaDTO> preguntas { get; set; } = new List<preguntaDTO>();
+        public CuestionarioHR()
+        {
+            Respuestas = new List<RespuestaDTO>();
+        }
         [Required]
         public int IdPregunta { get; set; }
 
         public bool EstadoPregunta { get; set; } = false!;
         public string preguntatexto { get; set; } = null!;
+
         /*/
      public int IdRespuesta { get; set; }
 

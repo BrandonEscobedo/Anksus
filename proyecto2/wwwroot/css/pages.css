@@ -1,0 +1,59 @@
+﻿body {
+    background-color: #e7e7e7;
+}
+
+
+
+.navbar-logo {
+    max-height: 40px;
+}
+
+.btn-style {
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 3px 6px;
+    display: inline-block;
+    width: 70px;
+}
+
+.bg-card {
+    border-radius: 10px;
+    background: rgb(0, 0, 0);
+    padding: 5px 25px;
+    display: flex;
+    justify-content: center;
+    max-width: fit-content;
+}
+
+.bg-card-op {
+    color: aliceblue;
+    margin: 0px 10px;
+    padding: 5px 10px 5px 30px;
+    border-radius: 10px;
+    background-color: rgb(66, 66, 66);
+}
+
+li.opcion {
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.custom-left-section {
+    font-size: 18px;
+    /* Aumenta el tamaño de la fuente */
+    padding: 0;
+    /* Elimina el relleno por defecto de la lista */
+}
+
+    .custom-left-section li {
+        margin: 0;
+        list-style: none;
+        /* Elimina los puntos de la lista */
+    }
+
+.seleccion {
+    margin: 15px 0px;
+    padding: 15px 30px;
+    border-radius: 20px;
+    background: #00cffe6d;
+}
