@@ -13,6 +13,6 @@ namespace proyecto2.Models.DTO
       
         public bool Estado { get; set; }=false;
 
-     
+        public List<RespuestaDTO> Respuestas { get; set; } = new List<RespuestaDTO>();
     }
 }
