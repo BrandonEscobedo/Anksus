@@ -19,17 +19,17 @@ namespace proyecto2.Controllers
     {
         private readonly ansksusContext _context;
         private readonly UserManager<AplicationUser> _userManager;
-      
-        public CuestionariosController(ansksusContext context,UserManager<AplicationUser> usermanger)
+
+        public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger)
         {
-           
+
             _context = context;
             _userManager = usermanger;
         }
-      
+
         public async Task<IActionResult> Index()
         {
-          
+
             var ansksusContext = _context.Cuestionarios.Include(c => c.IdCategoriaNavigation).Include(c => c.IdUsuarioNavigation);
             return View(await ansksusContext.ToListAsync());
         }
@@ -41,11 +41,11 @@ namespace proyecto2.Controllers
             {
                 return NotFound();
             }
-          
+
             var cuestionario = await _context.Cuestionarios
                 .Include(c => c.IdCategoriaNavigation)
                 .Include(c => c.IdUsuarioNavigation)
-               
+
                 .FirstOrDefaultAsync(m => m.IdCuestionario == id);
             if (cuestionario == null)
             {
@@ -60,11 +60,11 @@ namespace proyecto2.Controllers
         {
 
             var model = new CuestionarioHR();
-        
+
 
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
-           
+
             return View(model);
         }
 
@@ -76,10 +76,12 @@ namespace proyecto2.Controllers
         public async Task<IActionResult> Create(CuestionarioHR cuestHR)
         {
             var user = await _userManager.GetUserAsync(User);
-          
 
+            int idcuestionarioP = 0;
             if (ModelState.IsValid)
             {
+                bool exists = _context.Cuestionarios.Any(c => c.IdUsuario == cuestHR.IdCuestionario);
+                Console.WriteLine("id existente" + exists);
                 Cuestionario cuest = new Cuestionario
                 {
                     IdCuestionario = cuestHR.IdCuestionario,
@@ -89,45 +91,86 @@ namespace proyecto2.Controllers
                     Publico = cuestHR.Publico,
                     IdUsuario = user.Id
 
-                    
-                };
-                _context.Add(cuest);
-                await _context.SaveChangesAsync();
-                int idcuestionarioP = cuest.IdCuestionario;
-                Pregunta preg = new Pregunta
-                {
-                    pregunta = cuestHR.preguntatexto,
-                    IdPregunta = cuestHR.IdPregunta,
-                    IdCuestionario = idcuestionarioP,
-                    Estado = cuestHR.EstadoPregunta
-           };      
-                _context.Preguntas.Add(preg);
-                await _context.SaveChangesAsync();
-                int idpreguntaP=preg.IdPregunta;
-              
-               
-               foreach(var resp in cuestHR.Respuestas)
-                {
-                    Respuesta respuestaR = new Respuesta
-                    {
-                        IdPregunta = idpreguntaP,
-                        IdRespuesta = resp.IdRespuesta,
-                        respuesta = resp.respuesta,
-                        RCorrecta = resp.RCorrecta,
 
+                };
+                _context.Cuestionarios.Add(cuest);
+                await _context.SaveChangesAsync();
+                idcuestionarioP = cuest.IdCuestionario;
+
+                Console.WriteLine("idcuestionario-" + idcuestionarioP);
+
+
+                bool cuestVacio = _context.Preguntas.Where(c => c.IdCuestionario == idcuestionarioP).Any();
+                Console.WriteLine("valor de cuestvacio:" + cuestVacio);
+
+                if (cuestVacio == false)
+                {
+
+
+                    Pregunta preg = new Pregunta
+                    {
+                        pregunta = cuestHR.preguntatexto,
+                        IdPregunta = cuestHR.IdPregunta,
+                        IdCuestionario = idcuestionarioP,
+                        Estado = cuestHR.EstadoPregunta
                     };
-                    _context.Add(respuestaR);
+                    _context.Preguntas.Add(preg);
+                    await _context.SaveChangesAsync();
+                    int idpreguntaP = preg.IdPregunta;
+
+                    foreach (var resp in cuestHR.Respuestas)
+                    {
+                        Respuesta respuestaR = new Respuesta
+                        {
+                            IdPregunta = idpreguntaP,
+                            IdRespuesta = resp.IdRespuesta,
+                            respuesta = resp.respuesta,
+                            RCorrecta = resp.RCorrecta,
+
+                        };
+                        _context.Add(respuestaR);
+                        await _context.SaveChangesAsync();
+                        Console.WriteLine("exitado");
+                    }
+
                 }
-              
-                  await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+
+
+
+
+                return RedirectToAction();
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", cuestHR.IdCategoria);
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id", cuestHR.IdUsuario);
 
-           
+
             return View(cuestHR);
         }
+
+        /*/
+        public async Task<JsonResult>  ObtenerPreguntas(CuestionarioHR cuestHr)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            int idcuestionario = _context.Cuestionarios.Where(c => c.IdUsuario == user.Id &&
+           c.IdCuestionario == cuestHr.IdCuestionario).Select(c => c.IdCuestionario).FirstOrDefault();
+
+
+            var preguntasCuestionario = _context.Cuestionarios.Where(c => c.IdUsuario == user.Id
+            && c.IdCuestionario == cuestHr.IdCuestionario).Select(c => new
+            {
+
+                idcuestionario =  c.IdCuestionario,
+                Preguntas
+            }
+                
+                    
+
+                    });
+
+                });
+        }
+        /*/
 
         // GET: Cuestionarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -163,6 +206,7 @@ namespace proyecto2.Controllers
             {
                 try
                 {
+
                     _context.Update(cuestionario);
                     await _context.SaveChangesAsync();
                 }
@@ -218,14 +262,14 @@ namespace proyecto2.Controllers
             {
                 _context.Cuestionarios.Remove(cuestionario);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CuestionarioExists(int id)
         {
-          return (_context.Cuestionarios?.Any(e => e.IdCuestionario == id)).GetValueOrDefault();
+            return (_context.Cuestionarios?.Any(e => e.IdCuestionario == id)).GetValueOrDefault();
         }
     }
 }
