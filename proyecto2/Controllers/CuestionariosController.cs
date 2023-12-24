@@ -76,103 +76,34 @@ namespace proyecto2.Controllers
         public async Task<IActionResult> Create(CuestionarioHR cuestHR)
         {
             var user = await _userManager.GetUserAsync(User);
-
-            int idcuestionarioP = 0;
+            int idcuestionario = cuestHR.IdCuestionario;
             if (ModelState.IsValid)
             {
-                bool exists = _context.Cuestionarios.Any(c => c.IdUsuario == cuestHR.IdCuestionario);
-                Console.WriteLine("id existente" + exists);
-                Cuestionario cuest = new Cuestionario
-                {
-                    IdCuestionario = cuestHR.IdCuestionario,
-                    Estado = cuestHR.Estado,
-                    Titulo = cuestHR.Titulo,
-                    IdCategoria = cuestHR.IdCategoria,
-                    Publico = cuestHR.Publico,
-                    IdUsuario = user.Id
-
-
-                };
-                _context.Cuestionarios.Add(cuest);
-                await _context.SaveChangesAsync();
-                idcuestionarioP = cuest.IdCuestionario;
-
-                Console.WriteLine("idcuestionario-" + idcuestionarioP);
-
-
-                bool cuestVacio = _context.Preguntas.Where(c => c.IdCuestionario == idcuestionarioP).Any();
-                Console.WriteLine("valor de cuestvacio:" + cuestVacio);
-
-                if (cuestVacio == false)
-                {
-
-
-                    Pregunta preg = new Pregunta
+               
+                    foreach (var item in cuestHR.Categorias)
                     {
-                        pregunta = cuestHR.preguntatexto,
-                        IdPregunta = cuestHR.IdPregunta,
-                        IdCuestionario = idcuestionarioP,
-                        Estado = cuestHR.EstadoPregunta
-                    };
-                    _context.Preguntas.Add(preg);
-                    await _context.SaveChangesAsync();
-                    int idpreguntaP = preg.IdPregunta;
-
-                    foreach (var resp in cuestHR.Respuestas)
-                    {
-                        Respuesta respuestaR = new Respuesta
+                        Cuestionario cuest = new Cuestionario
                         {
-                            IdPregunta = idpreguntaP,
-                            IdRespuesta = resp.IdRespuesta,
-                            respuesta = resp.respuesta,
-                            RCorrecta = resp.RCorrecta,
+
+                            IdCuestionario = cuestHR.IdCuestionario,
+                            Estado = cuestHR.Estado,
+                            Titulo = cuestHR.Titulo,
+                            IdCategoria = 1,
+                            Publico = cuestHR.Publico,
+                            IdUsuario = user.Id
+
 
                         };
-                        _context.Add(respuestaR);
-                        await _context.SaveChangesAsync();
-                        Console.WriteLine("exitado");
+
+                        _context.Cuestionarios.Add(cuest);
                     }
-
-                }
-
-
-
-
-
-                return RedirectToAction();
+                             
+                await _context.SaveChangesAsync();               
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", cuestHR.IdCategoria);
-            ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id", cuestHR.IdUsuario);
-
-
             return View(cuestHR);
         }
 
-        /*/
-        public async Task<JsonResult>  ObtenerPreguntas(CuestionarioHR cuestHr)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            int idcuestionario = _context.Cuestionarios.Where(c => c.IdUsuario == user.Id &&
-           c.IdCuestionario == cuestHr.IdCuestionario).Select(c => c.IdCuestionario).FirstOrDefault();
-
-
-            var preguntasCuestionario = _context.Cuestionarios.Where(c => c.IdUsuario == user.Id
-            && c.IdCuestionario == cuestHr.IdCuestionario).Select(c => new
-            {
-
-                idcuestionario =  c.IdCuestionario,
-                Preguntas
-            }
-                
-                    
-
-                    });
-
-                });
-        }
-        /*/
-
-        // GET: Cuestionarios/Edit/5
+       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Cuestionarios == null)

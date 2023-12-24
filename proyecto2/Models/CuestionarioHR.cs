@@ -19,19 +19,18 @@ namespace proyecto2.Models
      
         public int IdUsuario { get; set; }
         [Required]
-
-        public int IdCategoria { get; set; }
-
         public bool Estado { get; set; } = false;
         [StringLength(50)]
         public string? Titulo { get; set; }
      
         public bool Publico { get; set; }
-    
+
+        public List<Categoria> Categorias { get; set; } = new List<Categoria>();
      public List<RespuestaDTO> Respuestas { get; set; } = new List<RespuestaDTO>();
         public List<preguntaDTO> Preguntas { get; set; } = new List<preguntaDTO>();
         public CuestionarioHR()
         {
+            Categorias = new List<Categoria>();
             Respuestas = new List<RespuestaDTO>();
             Preguntas = new List<preguntaDTO>();
         }
@@ -41,15 +40,7 @@ namespace proyecto2.Models
         public bool EstadoPregunta { get; set; } = false!;
         public string preguntatexto { get; set; } = null!;
 
-        /*/
-     public int IdRespuesta { get; set; }
-
-     [StringLength(200)]
-
-     public string respuesta { get; set; } = null!;
-
-     public bool RCorrecta { get; set; }
-     /*/
+   
     }
 
 

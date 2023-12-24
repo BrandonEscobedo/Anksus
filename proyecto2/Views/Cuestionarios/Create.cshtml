@@ -32,8 +32,18 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label asp-for="IdCategoria" class="control-label">Categoria</label>
-                        <select asp-for="IdCategoria" class="form-control" asp-items="ViewBag.IdCategoria"></select>
+
+                     
+                        <select class="form-control" >
+                            @foreach(var item in Model.Categorias)
+                            {
+                                <option value="@item.IdCategoria"  >
+                                    @item.Categoria1
+                                </option>
+                              
+
+                            }
+                        </select>
                     </div>
                     <label>Titulo</label>
                     <div class="input-group-text">
@@ -163,8 +173,6 @@
             if (numRespuestas < 10) {
                 let siguienteIndice = numRespuestas;
                 let nuevaRespuesta = $(
-
-
                     ` <tr>
                               <td>
                             <div class="input-group dynamic-respuesta">
