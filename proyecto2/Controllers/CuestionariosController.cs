@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +20,8 @@ namespace proyecto2.Controllers
     {
         private readonly ansksusContext _context;
         private readonly UserManager<AplicationUser> _userManager;
-
+        private bool primeraEntrada = true;
+        
         public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger)
         {
 
@@ -58,52 +60,79 @@ namespace proyecto2.Controllers
         // GET: Cuestionarios/Create
         public IActionResult Create()
         {
-
+          
             var model = new CuestionarioHR();
-
+           
 
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
-
+            Response.Cookies.Delete("MiCokkie");
             return View(model);
         }
+
 
         // POST: Cuestionarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CuestionarioHR cuestHR)
+
+        public async Task<JsonResult>  Create( CuestionarioHR cuestHR)
         {
-            var user = await _userManager.GetUserAsync(User);
+            bool entrada = true;
+            Console.WriteLine("entrada 2" + entrada);
+            try
+            {   
+        var user = await _userManager.GetUserAsync(User);
             int idcuestionario = cuestHR.IdCuestionario;
-            if (ModelState.IsValid)
-            {
-               
-                    foreach (var item in cuestHR.Categorias)
-                    {
-                        Cuestionario cuest = new Cuestionario
-                        {
+                Console.WriteLine((_context.Preguntas.Any(e => e.IdCuestionario == cuestHR.IdCuestionario)));
+                var existingcuestionario = await _context.Cuestionarios.FindAsync(idcuestionario);
+                
+                    Cuestionario cuest = new Cuestionario
+                    {      
+                        Estado = true,
+                        
+                        IdCategoria = 1,
+                        Publico = true,
+                        IdUsuario = user.Id
+                    };
+                    idcuestionario = cuest.IdCuestionario;
+                Console.WriteLine("entrada" + primeraEntrada);
+                if(entrada==true)
+                {
+                    _context.Cuestionarios.Add(cuest);
+                   await _context.SaveChangesAsync();
+                 
+                    return Json(new { success = true, message = "Cuestionario creado correctamente" });
+                }
 
-                            IdCuestionario = cuestHR.IdCuestionario,
-                            Estado = cuestHR.Estado,
-                            Titulo = cuestHR.Titulo,
-                            IdCategoria = 1,
-                            Publico = cuestHR.Publico,
-                            IdUsuario = user.Id
+                else
+                {
+                    return Json(new { success = false, message = "Cuestionario Existente" });
+
+                }
 
 
-                        };
 
-                        _context.Cuestionarios.Add(cuest);
-                    }
-                             
-                await _context.SaveChangesAsync();               
             }
-            return View(cuestHR);
-        }
+            catch(Exception ex)
+            {
+                return Json(new { success = false, message = "Error al crear el cuestionario", error = ex.Message });
 
-       
+            }
+
+        }
+        private bool ObtenerPrimerEntrada()
+        {
+            var primeraEntradaCookie = Request.Cookies["MiCokkie"];
+            
+            bool.TryParse(primeraEntradaCookie,out  primeraEntrada);
+            return primeraEntrada;
+        }
+      public string cambiarnombre(string nombre)
+        {
+            nombre = nombre.ToUpper();
+            return nombre;
+        }
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Cuestionarios == null)

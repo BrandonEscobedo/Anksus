@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace proyecto2.Models
 {
-   
+    
     public class CuestionarioHR
     {
         //Tabla Cuestionario

@@ -17,7 +17,7 @@
 </head>
 <link  href="~/css/pages.css"/>
 
-       <form asp-action="Create">
+       
     <!-- Button trigger modal -->
   
     <!-- Modal -->
@@ -48,7 +48,7 @@
                     <label>Titulo</label>
                     <div class="input-group-text">
 
-                        <input asp-for="Titulo" class="input" />
+                    <input id="titulo" asp-for="Titulo" class="input" />
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
@@ -58,7 +58,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-secondary" data-dismiss="modal" placeholder="Cerrar"/>
-                    <button type="submit" value="Create" class="btn btn-primary">Save changes</button>
+                <button  id="saveChangesButton" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
               <div id="preguntaContenedor"></div>
                 <h3>Escribe la pregunta</h3>
                 <input type="text" class="form-control" asp-for="preguntatexto" placeholder="Pregunta">
-                
+                <p id="pruebaid"></p>
          
 
                 <p class="pt-2">Selecciona el tipo de respuesta:</p>
@@ -152,7 +152,7 @@
             </div>
         </div>
     </div>
-     </form>
+    
 
 <div>
     <a asp-action="Index">Back to List</a>
@@ -160,6 +160,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
      <script>
         $("#addFunctionButton").click(function () {
             console.log("si")
@@ -198,5 +199,22 @@
             let filarespuesta = $(this).closest("tr");
             filarespuesta.remove();
         });
+        $(document).ready(function () {
+            $("#saveChangesButton").click(async function (e) {
+                e.preventDefault();
+                var titulo = "holaa";
+                var url = "@Url.Action("Create", "Cuestionarios")";
+                var publico = false;
+                var estado = false;
+                var categoria = 1;
+                var data = {
+                    Titulo: titulo,
+                };
+                $.post(url, data).done(function (data) {
+                    console.log(data)
+                });
+            });
+        });
     </script>
 }
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI/t1glM24sgjCWCW5R5FqYnKtO0lM6a6djfjWA=" crossorigin="anonymous"></script>
