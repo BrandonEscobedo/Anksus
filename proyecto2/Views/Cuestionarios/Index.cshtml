@@ -1,4 +1,6 @@
-﻿@model IEnumerable<proyecto2.Models.dbModels.Cuestionario>
+﻿@using proyecto2
+
+@model CuestionarioHR
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +8,6 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -22,20 +21,20 @@
                 @Html.DisplayNameFor(model => model.Publico)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCategoriaNavigation)
+              Preguntas
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
+                respuestas
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.cuest ) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Estado)
+                @Html.DisplayFor(modelItem => item.IdCuestionario)
             </td>
+  
             <td>
                 @Html.DisplayFor(modelItem => item.Titulo)
             </td>
@@ -43,16 +42,17 @@
                 @Html.DisplayFor(modelItem => item.Publico)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.IdCategoria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCuestionario">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCuestionario">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCuestionario">Delete</a>
-            </td>
+
+                    @foreach (var respuestas in Model.Preguntas2.Where(e=>e.IdCuestionario==item.IdCuestionario))
+                    {
+
+                            @Model.Preguntas2.Count(e => e.IdCuestionario == item.IdCuestionario)
+
+                                 
+                            @Model.Respuestas2.Count(e => e.IdPregunta == respuestas.IdPregunta)
+              <br>
+                    }
+                </td>
         </tr>
 }
     </tbody>

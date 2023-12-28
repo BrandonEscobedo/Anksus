@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +22,8 @@ namespace proyecto2.Controllers
         private readonly ansksusContext _context;
         private readonly UserManager<AplicationUser> _userManager;
         private bool primeraEntrada = true;
-        
+        private int IdCuestionario;
+        List<Categoria> categorias= new List<Categoria>();
         public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger)
         {
 
@@ -31,9 +33,11 @@ namespace proyecto2.Controllers
 
         public async Task<IActionResult> Index()
         {
-
-            var ansksusContext = _context.Cuestionarios.Include(c => c.IdCategoriaNavigation).Include(c => c.IdUsuarioNavigation);
-            return View(await ansksusContext.ToListAsync());
+            var model = new CuestionarioHR();
+            model.cuest =  _context.Cuestionarios.ToList();
+            model.Preguntas2 = _context.Preguntas.ToList();
+            model.Respuestas2 = _context.Respuestas.ToList();
+            return View(model);
         }
 
         // GET: Cuestionarios/Details/5
@@ -62,8 +66,10 @@ namespace proyecto2.Controllers
         {
           
             var model = new CuestionarioHR();
-           
-
+            model.Categorias = _context.Categorias.ToList();
+            model.Preguntas2 = _context.Preguntas.ToList();
+            model.cuest=_context.Cuestionarios.ToList();
+            model.CuestionarioExistente = false;
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
             Response.Cookies.Delete("MiCokkie");
@@ -76,21 +82,18 @@ namespace proyecto2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
 
-        public async Task<JsonResult>  Create( CuestionarioHR cuestHR)
+        public async Task<IActionResult>  Create( CuestionarioHR cuestHR)
         {
             bool entrada = true;
             Console.WriteLine("entrada 2" + entrada);
             try
             {   
         var user = await _userManager.GetUserAsync(User);
-            int idcuestionario = cuestHR.IdCuestionario;
                 Console.WriteLine((_context.Preguntas.Any(e => e.IdCuestionario == cuestHR.IdCuestionario)));
                 var existingcuestionario = await _context.Cuestionarios.FindAsync(idcuestionario);
-                
                     Cuestionario cuest = new Cuestionario
                     {      
-                        Estado = true,
-                        
+                        Estado = true,                        
                         IdCategoria = 1,
                         Publico = true,
                         IdUsuario = user.Id
@@ -101,8 +104,15 @@ namespace proyecto2.Controllers
                 {
                     _context.Cuestionarios.Add(cuest);
                    await _context.SaveChangesAsync();
-                 
-                    return Json(new { success = true, message = "Cuestionario creado correctamente" });
+                    var idcuestionario1 = cuest.IdCuestionario;
+
+                    var cuestionarioCreado= await _context.Cuestionarios
+                        .Include(c=>c.IdCategoriaNavigation)
+                        .Include(c=>c.IdUsuarioNavigation)
+                        .FirstOrDefaultAsync(m=>m.IdCuestionario==idcuestionario1);
+                    Console.WriteLine(cuestHR.Preguntas2.Count(e=>e.IdCuestionario==idcuestionario1));
+
+                 return View(cuestionarioCreado);
                 }
 
                 else
@@ -110,8 +120,6 @@ namespace proyecto2.Controllers
                     return Json(new { success = false, message = "Cuestionario Existente" });
 
                 }
-
-
 
             }
             catch(Exception ex)
