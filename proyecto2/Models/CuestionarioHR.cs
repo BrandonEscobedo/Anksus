@@ -13,37 +13,22 @@ namespace proyecto2.Models
     public class CuestionarioHR
     {
         //Tabla Cuestionario
-        [Required]
-        public int IdCuestionario { get; set; }
-        [Required]
-     
-        public int IdUsuario { get; set; }
-        [Required]
-        public bool Estado { get; set; } = false;
-        [StringLength(50)]
-        public string? Titulo { get; set; }
-
-        public bool Publico { get; set; }
-        public bool CuestionarioExistente { get; set; }
-        public List <Cuestionario>? cuest { get ; set; }
+        public string Titulo { get; set; }
+        public Cuestionario cuest { get; set; }
+        public List<Cuestionario>  cuestionario { get ; set; }
 
         public List<Categoria>? Categorias { get; set; }
-        public List<Pregunta>? Preguntas2 { get; set; }
-        public List<Respuesta>? Respuestas2 { get; set; }
+        public List<Pregunta>? Preguntas { get; set; }
+        public Pregunta? PreguntaActual { get; set; }
+        public List<Respuesta>? Respuestas { get; set; }
 
-        public List<RespuestaDTO>? Respuestas { get; set; } = new List<RespuestaDTO>();
-        public List<preguntaDTO>? Preguntas { get; set; } = new List<preguntaDTO>();
         public CuestionarioHR()
         {
-         
-            Respuestas2 = new List<Respuesta>();
-            Preguntas2 = new List<Pregunta>();
+            cuest=new Cuestionario();
+         cuestionario= new List<Cuestionario>();
+            Respuestas = new List<Respuesta>();
+            Preguntas = new List<Pregunta>();
         }
-        [Required]
-        public int IdPregunta { get; set; }
-
-        public bool EstadoPregunta { get; set; } = false!;
-        public string preguntatexto { get; set; } = null!;
 
    
     }
