@@ -1,4 +1,5 @@
-﻿@model CuestionarioHR
+﻿@using proyecto2.Models.ViewModel
+@model CuestionarioHR
 
 <script type="text/javascript" src="~/js/PreguntasRespuestas.js"></script>
 
@@ -7,13 +8,19 @@
         <div class="col-md-2 bg-white custom-left-section p-3">
             <div class="mt-3 añadirPreguntas">
                 <input type="text" id="newQuestionInput" class="form-control" placeholder="Nueva Pregunta">
-
-
-
             </div>
             <div id="addFunctionButton" class="btn  btn-primary mt-2">
                 Agregar Pregunta
             </div>
+            <div class="mt-3 añadirPreguntas d-flex align-items-center">
+                <div id="newQuestionDiv" class="form-control flex-grow-1" style="cursor: pointer;">Agregar Pregunta</div>
+                <div class="d-flex ml-auto">
+                    <button type="button" class="btn btn-primary agregarPregunta d-none flex-grow-1"><i class="fa fa-plus"></i>Editar</button>
+                    <button type="button" class="btn btn-secondary cancelarPregunta d-none flex-grow-1"><i class="fa fa-times"></i>Eliminar</button>
+                </div>
+            </div>
+
+
         </div>
             <div class="col-md-10 bg-white p-4">
               <div id="preguntaContenedor"></div>
@@ -23,17 +30,52 @@
             <div id="RespuestasContenedor">
                
                     <div class="input-group dynamic-respuesta">
-                        <input type="text" class="form-control"  placeholder="Ingresa tu Respuesta aqui" />
+                    <input type="text" class="form-control InputRespuestas" id="numero1" placeholder="Ingresa tu Respuesta aqui" />
                         <div class="input-group-text">
                             <input id="eye" type="checkbox" class="form-check-input" value="True"  />
                         </div>
                         <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
                     </div>
-            
+
+                <div class="input-group dynamic-respuesta">
+                    <input type="text" class="form-control InputRespuestas" id="numero2" placeholder="Ingresa tu Respuesta aqui" />
+                    <div class="input-group-text">
+                        <input id="eye" type="checkbox" class="form-check-input" value="True" />
+                    </div>
+                    <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                </div>
+                <div class="input-group dynamic-respuesta">
+                    <input type="text" class="form-control InputRespuestas" id="numero3" placeholder="Ingresa tu Respuesta aqui" />
+                    <div class="input-group-text">
+                        <input id="eye" type="checkbox" class="form-check-input" value="True" />
+                    </div>
+                    <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                </div>
+                <div class="input-group dynamic-respuesta">
+                    <input type="text" class="form-control InputRespuestas" id="numero4" placeholder="Ingresa tu Respuesta aqui" />
+                    <div class="input-group-text">
+                        <input id="eye" type="checkbox" class="form-check-input" value="True" />
+                    </div>
+                    <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                </div>
+                <div class="input-group dynamic-respuesta">
+                    <input type="text" class="form-control InputRespuestas" id="numero5" placeholder="Ingresa tu Respuesta aqui" />
+                    <div class="input-group-text">
+                        <input id="eye" type="checkbox" class="form-check-input" value="True" />
+                    </div>
+                    <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                </div>
+                <div class="input-group dynamic-respuesta">
+                    <input type="text" class="form-control InputRespuestas" id="numero6" placeholder="Ingresa tu Respuesta aqui" />
+                    <div class="input-group-text">
+                        <input id="eye" type="checkbox" class="form-check-input" value="True" />
+                    </div>
+                    <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
+                </div>
             </div>              
                     
                  <div class="form-group">
-                <button class="add-respuesta" type="button">
+                <button id="AddRespuesta" type="button">
                     Agregar opción
                      </button>
 </div>       
@@ -41,3 +83,18 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+<script>
+    $(".añadirPreguntas").mouseenter(function () {
+        $(this).find(".agregarPregunta, .cancelarPregunta").removeClass("d-none");
+    });
+
+    $(".añadirPreguntas").mouseleave(function () {
+        $(this).find(".agregarPregunta, .cancelarPregunta").addClass("d-none");
+    });
+
+</script>

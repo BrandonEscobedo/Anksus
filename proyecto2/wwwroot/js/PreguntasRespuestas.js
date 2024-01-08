@@ -13,7 +13,14 @@
                     $("#exampleModal").modal('show');
                 }
                 else {
-                    var nuevoDiv = `<div id="${result.idpregunta}">
+                    var nuevoDiv = `<div class="mt-3 añadirPreguntas d-flex align-items-center">
+                        <div id="${result.idpregunta}" class="form-control mt-3">${result.pregunta}</div>                            <div class="d-flex ml-auto">
+                                <button type="button" class="btn btn-primary agregarPregunta d-none flex-grow-1"><i class="fa fa-plus"></i>Editar</button>
+                                <button type="button" class="btn btn-secondary cancelarPregunta d-none flex-grow-1"><i class="fa fa-times"></i>Eliminar</button>
+                            </div>
+                    </div>`;
+                    
+                    `<div id="${result.idpregunta}">
                             <div class="form-control mt-3">${result.pregunta}</div>
                     </div>`;
                     $(".añadirPreguntas").append(nuevoDiv);
@@ -23,52 +30,55 @@
             });
         });
     });
-var RespuestaTotal = new Array(5) ;
-    function agregarRespuesta() {
-        let respuestasContenedor = $("#RespuestasContenedor");
-        let numRespuestas =2;
-        if (numRespuestas < 6) {
-            let siguienteIndice = numRespuestas;
-            let nuevaRespuesta = $(
-              `   <div class="input-group dynamic-respuesta">
-                        <input type="text" class="form-control"  placeholder="Ingresa tu Respuesta aqui" />
-                      <div class="input-group-text">
-                            <input id="eye" type="checkbox" id="${RespuestaTotal[numRespuestas]}" class="form-check-input" value="True"  />
-                      </div>
-                        <button type="button" class="btn btn-danger remove-respuesta">Eliminar</button>
-                  </div>`
-            );
-            respuestasContenedor.append(nuevaRespuesta);
+var array = [];
+
+function AgregarItemsRespuestas() {
+    $(document).ready(function () {
+    let TempArray = [];
+        for (var i = 0; i < 6; i++) {
+            TempArray[i] = document.getElementById('numero' + (i + 1)).value;
         }
-        else {
-            alert("No se pueden agregar mas de 10 respuestas!");
+        array = TempArray.filter(function (elemento) {
+            return elemento.trim()!=="";
+        });
+
+        for (var i = 0; i < array.length; i++) {
+            console.log(array[i]);
+            
         }
-    }
-    $(".add-respuesta").click(agregarRespuesta);
-    $("#RespuestasContenedor").on("click", ".remove-respuesta", function () {
-        let filarespuesta = $(this).closest("tr");
-        filarespuesta.remove();
+    
     });
+};
+
+$(document).ready(function () {
+    $("#AddRespuesta").click(function () {
+        AgregarItemsRespuestas();
+    });
+});
+var respuestas2 = [];
+
     function AgregarRespuestas1() {
         $(document).ready(function () {
-            var respuestas = [];
-            for (var i = 1; i <= 4; i++) {
-                var textoRespuesta = "hola1";
+            for (var i = 0; i < array.length; i++) {
                 var esCorrecta = false;
 
-                respuestas.push({ respuesta: textoRespuesta, RCorrecta: esCorrecta });
-                console.log(respuestas);
+                respuestas2.push({ respuesta: array[i], RCorrecta: esCorrecta });
+                textoRespuesta = "";
             }
+
             $.ajax({
                 url: '/Cuestionarios/CrearRespuesta',
                 type: 'Post',
                 contentType: 'application/Json',
-                data: JSON.stringify(respuestas),
+                data: JSON.stringify(respuestas2),
                 success: function (result) {
                     console.log(result);
+                    respuestas2 = [];
+                    array = [];
+
                 },
                 error: function (error) {
-                    console.log(result);
+                    console.log(error);
                 }
             });
         });

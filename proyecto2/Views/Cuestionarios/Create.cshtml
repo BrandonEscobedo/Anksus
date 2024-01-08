@@ -1,12 +1,13 @@
-﻿@using proyecto2
+﻿@using proyecto2.Models.ViewModel
 @model CuestionarioHR
 
 @{
-    ViewData["Title"] = "jolas";
+    ViewData["Title"] = "Crear Cuestionario";
 
 }
 <head>
-    
+    <link rel="stylesheet" href="~/css/index.css">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -18,10 +19,6 @@
 </head>
 <link  href="~/css/pages.css"/> 
     <!-- Button trigger modal -->
-<p>
-    @ViewData["pregunta"]
-
-</p>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -46,7 +43,7 @@
                     <label>Titulo</label>
                     <div class="input-group-text">
 
-                    <input id="titulo" class="input" asp-for="Titulo"/>
+                    <input id="titulo" class="input" />
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
@@ -70,13 +67,12 @@
                    Guardar
                 </div>
                
-               
                 <button class="btn btn-danger btn-style">Cancelar</button>
             </div>
         </div>
     </nav>
 
-             @Html.Partial("_Preguntas");
+             @Html.Partial("_Preguntas")
 
 
      

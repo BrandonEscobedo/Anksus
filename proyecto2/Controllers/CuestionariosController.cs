@@ -13,19 +13,17 @@ using NuGet.Protocol;
 using proyecto2.Models;
 using proyecto2.Models.dbModels;
 using proyecto2.Models.DTO;
-using proyecto2.ViewModel;
+using proyecto2.Models.ViewModel;
 
 namespace proyecto2.Controllers
 {
 
     public class CuestionariosController : Controller
     {
+
         List<Respuesta> ListaRespuestas = new List<Respuesta>();
         private readonly ansksusContext _context;
         private readonly UserManager<AplicationUser> _userManager;
-        private bool primeraEntrada = true;
-        private static int IdCuestionario;
-        private static int IdPregunta;
         List<Categoria> categorias= new List<Categoria>();
         public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger)
         {
@@ -74,7 +72,6 @@ namespace proyecto2.Controllers
             model.Preguntas = _context.Preguntas.ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
-            Response.Cookies.Delete("MiCokkie");
             return View(model);
         }
 
@@ -83,8 +80,7 @@ namespace proyecto2.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
-        public async Task<IActionResult> Create( Cuestionario cuestHR )
+        public async Task<IActionResult> Create( Cuestionario cuestHR,IdConteinerCuestionarios idConteinerCuestionarios )
         {
             try
             {
@@ -95,43 +91,35 @@ namespace proyecto2.Controllers
                 cuest.IdCategoria = cuestHR.IdCategoria;
                 cuest.IdUsuario = user.Id;
                 cuest.Publico = false;
-                if (IdCuestionario == 0)
+                if (cuestHR.IdCuestionario == 0)
                 {
                 Console.WriteLine(IdCuestionario);
                  _context.Cuestionarios.Add(cuest);          
                 await _context.SaveChangesAsync();
-                IdCuestionario = cuest.IdCuestionario;
-                Console.WriteLine("en create " + IdCuestionario);
                 return Json(new { success = true, message = "Cuestionario Creado Exitosamente" });
                 }
                 else
-
                 {
-                    await EditarCuestionario(IdCuestionario,cuest);
-
+                    await EditarCuestionario(1,cuest);
                     return Json(new { message = "Editado Correctamente en Create" });
-                }
-                
-  
-
+                }               
             }
             catch(Exception ex)
             {
                 return Json(new { success = false, message = "Error al crear el cuestionario", error = ex.Message });
-
             }
-
         }
+
         [HttpPost]
-        public async Task<IActionResult> CrearPreguntas(Pregunta Preguntas)
+        public async Task<IActionResult> CrearPreguntas(int _Idcuestionario, preguntaDTO PreguntasDTO,IdConteinerCuestionarios idConteiner)
         {
-        List<    Pregunta > preg = null;
+            List<Pregunta> preg = null;
             try
             {
 
-                if (IdCuestionario==0)
+                if (_Idcuestionario == 0)
                 {
-                    Console.WriteLine("error en id" + IdCuestionario);
+                    Console.WriteLine("error en id" + _Idcuestionario);
                     Create();
                     return Json(new {succes=false, message = "No se creo el cuestionario" });
                 }
@@ -139,16 +127,16 @@ namespace proyecto2.Controllers
                 {
                     Pregunta pregunta = new Pregunta
                     {
-                        IdCuestionario = IdCuestionario,
-                        pregunta = Preguntas.pregunta,
+                        IdCuestionario = _Idcuestionario,
+                        pregunta = PreguntasDTO.pregunta,
                         Estado = false,
                     };
                 
-                        _context.Preguntas.Add(pregunta);
-                        await _context.SaveChangesAsync();
-                    IdPregunta = pregunta.IdPregunta;
+                      _context.Preguntas.Add(pregunta);
+                      await _context.SaveChangesAsync();
+                    idConteiner.IdPregunta = pregunta.IdPregunta;
                     var model = new CuestionarioHR();
-                    preg =await _context.Preguntas.Where(e=>e.IdCuestionario==IdCuestionario).OrderByDescending(e=>e.IdPregunta).ToListAsync();
+                    preg =await _context.Preguntas.Where(e=>e.IdCuestionario == _Idcuestionario).OrderByDescending(e=>e.IdPregunta).ToListAsync();
                     var PreguntaActual = preg.FirstOrDefault();
                     return Json(new { pregunta = PreguntaActual.pregunta, idpregunta = PreguntaActual.IdPregunta });
                         
@@ -161,7 +149,7 @@ namespace proyecto2.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> CrearRespuesta([FromBody] List <Respuesta> RespuestasHR)
+        public async Task<IActionResult> CrearRespuesta([FromBody] List <RespuestaDTO> RespuestasHR,IdConteinerCuestionarios idConteiner)
         {
             try
             {
@@ -180,18 +168,19 @@ namespace proyecto2.Controllers
                         {
                             respuesta=respuesta.respuesta,
                             RCorrecta=false,
-                            IdPregunta=IdPregunta
+                            IdPregunta=idConteiner.IdPregunta
                         };
                         _context.Respuestas.Add(NuevaRespuesta);
                         await _context.SaveChangesAsync();
-                    }      
-                };
+                    }
                     return Json(new { success = true, message = "respuestas Agregadas Correctamente" });
+                };
+                  
                 
             }
             catch (Exception ex)
             {
-                return Json(new { success = true, message = "Error al Agregar respuesta " + ex.Message.ToString() });
+                return Json(new { success = false, message = "Error al Agregar respuesta " + ex.Message.ToString() });
 
             }
 

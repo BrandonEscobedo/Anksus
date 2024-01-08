@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1VOq9HXG4YH38rThmE3+GS+aSbbLtfLKLqtKkYaXvU4=",
+  "Hash": "xoOZCmHEeT59iuLCi/ssK3Bv4Yi+LObxpzm/mVSk5Zg=",
   "Source": "proyecto2",
   "BasePath": "_content/proyecto2",
   "Mode": "Default",
@@ -1345,25 +1345,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\Logo.png"
-    },
-    {
-      "Identity": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\wwwroot\\js\\newFile.js",
-      "SourceId": "proyecto2",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\wwwroot\\",
-      "BasePath": "_content/proyecto2",
-      "RelativePath": "js/newFile.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\newFile.js"
     },
     {
       "Identity": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\wwwroot\\js\\PreguntasRespuestas.js",
