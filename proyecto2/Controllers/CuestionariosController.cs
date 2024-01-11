@@ -13,6 +13,7 @@ using NuGet.Protocol;
 using proyecto2.Models;
 using proyecto2.Models.dbModels;
 using proyecto2.Models.DTO;
+using proyecto2.Models.Interfaces;
 using proyecto2.Models.ViewModel;
 
 namespace proyecto2.Controllers
@@ -25,9 +26,11 @@ namespace proyecto2.Controllers
         private readonly ansksusContext _context;
         private readonly UserManager<AplicationUser> _userManager;
         List<Categoria> categorias= new List<Categoria>();
-        public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger)
+        private readonly IIdConteiner _IdConteiner;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger )
         {
-
+             
             _context = context;
             _userManager = usermanger;
         }
@@ -64,8 +67,7 @@ namespace proyecto2.Controllers
         // GET: Cuestionarios/Create
         public IActionResult Create()
         {
-            IdPregunta = 0;
-            IdCuestionario = 0; 
+           
             var model = new CuestionarioHR();
             model.cuestionario = _context.Cuestionarios.ToList();
             model.Categorias = _context.Categorias.ToList();
@@ -80,27 +82,28 @@ namespace proyecto2.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Create( Cuestionario cuestHR,IdConteinerCuestionarios idConteinerCuestionarios )
+        public async Task<IActionResult> Create( CuestionarioHR cuestHR )
         {
             try
             {
                 var user = await _userManager.GetUserAsync(User);
                 Cuestionario cuest = new Cuestionario();
-                cuest.Titulo = cuestHR.Titulo;
+                cuest.Titulo = cuestHR.AgregarCuestionario.Titulo;
                 cuest.Estado = false;
-                cuest.IdCategoria = cuestHR.IdCategoria;
+                cuest.IdCategoria = cuestHR.AgregarCuestionario.IdCategoria;
                 cuest.IdUsuario = user.Id;
                 cuest.Publico = false;
-                if (cuestHR.IdCuestionario == 0)
+
+                if (_context.Cuestionarios.Where(x => x.IdCuestionario.Equals(cuestHR.IdCuestionario)).Any() == false)
                 {
-                Console.WriteLine(IdCuestionario);
                  _context.Cuestionarios.Add(cuest);          
                 await _context.SaveChangesAsync();
+                    cuestHR.IdCuestionario = cuest.IdCuestionario;
                 return Json(new { success = true, message = "Cuestionario Creado Exitosamente" });
                 }
                 else
                 {
-                    await EditarCuestionario(1,cuest);
+                    await EditarCuestionario(cuest.IdCuestionario, cuest);
                     return Json(new { message = "Editado Correctamente en Create" });
                 }               
             }
@@ -111,34 +114,34 @@ namespace proyecto2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearPreguntas(int _Idcuestionario, preguntaDTO PreguntasDTO,IdConteinerCuestionarios idConteiner)
+        public async Task<JsonResult> CrearPreguntas(int CuestionarioId, CuestionarioHR cuestionarioHR)
         {
             List<Pregunta> preg = null;
             try
             {
-
-                if (_Idcuestionario == 0)
+                int cues =0;
+                if (cues ==0)
                 {
-                    Console.WriteLine("error en id" + _Idcuestionario);
+                    Console.WriteLine("error en id" + cuestionarioHR.AgregarCuestionario.IdCuestionario);
                     Create();
                     return Json(new {succes=false, message = "No se creo el cuestionario" });
                 }
                 else
                 {
-                    Pregunta pregunta = new Pregunta
-                    {
-                        IdCuestionario = _Idcuestionario,
-                        pregunta = PreguntasDTO.pregunta,
-                        Estado = false,
-                    };
-                
-                      _context.Preguntas.Add(pregunta);
-                      await _context.SaveChangesAsync();
-                    idConteiner.IdPregunta = pregunta.IdPregunta;
-                    var model = new CuestionarioHR();
-                    preg =await _context.Preguntas.Where(e=>e.IdCuestionario == _Idcuestionario).OrderByDescending(e=>e.IdPregunta).ToListAsync();
-                    var PreguntaActual = preg.FirstOrDefault();
-                    return Json(new { pregunta = PreguntaActual.pregunta, idpregunta = PreguntaActual.IdPregunta });
+                    //Pregunta pregunta = new Pregunta
+                    //{
+                    //    IdCuestionario = _Idcuestionario,
+                    //    pregunta = PreguntasDTO.pregunta,
+                    //    Estado = false,
+                    //};
+
+                    //_context.Preguntas.Add(pregunta);
+                    //await _context.SaveChangesAsync();
+                    //_IdConteiner.SetIdPregunta(pregunta.IdPregunta);
+                    //var model = new CuestionarioHR();
+                    //preg = await _context.Preguntas.Where(e => e.IdCuestionario == _Idcuestionario).OrderByDescending(e => e.IdPregunta).ToListAsync();
+                    //var PreguntaActual = preg.FirstOrDefault();
+                    return Json(new { pregunta ="ad" });
                         
                 }                   
             }
@@ -149,12 +152,12 @@ namespace proyecto2.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> CrearRespuesta([FromBody] List <RespuestaDTO> RespuestasHR,IdConteinerCuestionarios idConteiner)
+        public async Task<IActionResult> CrearRespuesta(int idPregunta, [FromBody] List <RespuestaDTO> RespuestasHR)
         {
             try
             {
-
-                if ( IdPregunta == 0)
+                idPregunta = _IdConteiner.IdPregunta;
+                if (idPregunta == 0)
                 {
                     return Json(new { message = "No se creo el cuestionario por respuesta" });
 
@@ -166,9 +169,9 @@ namespace proyecto2.Controllers
                     {
                         var NuevaRespuesta = new Respuesta
                         {
-                            respuesta=respuesta.respuesta,
-                            RCorrecta=false,
-                            IdPregunta=idConteiner.IdPregunta
+                            respuesta = respuesta.respuesta,
+                            RCorrecta = false,
+                            IdPregunta = idPregunta
                         };
                         _context.Respuestas.Add(NuevaRespuesta);
                         await _context.SaveChangesAsync();
@@ -213,17 +216,10 @@ namespace proyecto2.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarCuestionario(int id, Cuestionario cuestionario)
         {
-            if (id == cuestionario.IdCuestionario)
-            {
-                Console.WriteLine(id+ " " + cuestionario.IdCuestionario);
-                Console.WriteLine("Error en editar");
-                return NotFound();
-
-            }
-            
+           
                 try
                 {
-                Console.WriteLine("En editar 1: " + IdCuestionario);
+                Console.WriteLine("En editar 1: " + id);
                     _context.Update(cuestionario);
                     await _context.SaveChangesAsync();
 

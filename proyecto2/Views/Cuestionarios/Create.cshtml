@@ -75,11 +75,6 @@
              @Html.Partial("_Preguntas")
 
 
-     
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
 
     @{
@@ -97,11 +92,16 @@
                 var estado = false;
                 var categoria = 1;
                 var data = {
-                    Titulo: titulo,
-                    IdCategoria:2
+                    AgregarCuestionario: {
+                        Titulo: titulo,
+                        IdCategoria:2
+                    }
+                
                 };
                 $.post(url, data).done(function (data) {
-                    console.log(data);
+                    console.log(data)
+                    console.log(@Model.AgregarCuestionario.Titulo);
+
                 });
             });
         });

@@ -25,24 +25,6 @@ namespace proyecto2.Controllers
             return View(await ansksusContext.ToListAsync());
         }
 
-        // GET: Preguntas/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Preguntas == null)
-            {
-                return NotFound();
-            }
-
-            var pregunta = await _context.Preguntas
-                .Include(p => p.IdCuestionarioNavigation)
-                .FirstOrDefaultAsync(m => m.IdPregunta == id);
-            if (pregunta == null)
-            {
-                return NotFound();
-            }
-
-            return View(pregunta);
-        }
 
         // GET: Preguntas/Create
         public IActionResult Create()
@@ -96,7 +78,7 @@ namespace proyecto2.Controllers
             {
                 return NotFound();
             }
-
+                
             if (ModelState.IsValid)
             {
                 try
