@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using proyecto2.Models.dbModels;
-using proyecto2.Models.DTO;
 
 namespace proyecto2.Controllers
 {
@@ -26,24 +25,6 @@ namespace proyecto2.Controllers
             return View(await ansksusContext.ToListAsync());
         }
 
-        // GET: Preguntas/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Preguntas == null)
-            {
-                return NotFound();
-            }
-
-            var pregunta = await _context.Preguntas
-                .Include(p => p.IdCuestionarioNavigation)
-                .FirstOrDefaultAsync(m => m.IdPregunta == id);
-            if (pregunta == null)
-            {
-                return NotFound();
-            }
-
-            return View(pregunta);
-        }
 
         // GET: Preguntas/Create
         public IActionResult Create()
@@ -57,18 +38,10 @@ namespace proyecto2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPregunta,IdCuestionario,Respuesta,Estado")] preguntaDTO pregunta)
+        public async Task<IActionResult> Create([Bind("IdPregunta,IdCuestionario,pregunta,Estado")] Pregunta pregunta)
         {
             if (ModelState.IsValid)
             {
-                Pregunta pe = new Pregunta {
-                    IdPregunta = pregunta.IdPregunta,
-                    IdCuestionario = pregunta.IdCuestionario,
-                    pregunta=pregunta.pregunta
-                    
-                   
-                
-                };
                 _context.Add(pregunta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,13 +72,13 @@ namespace proyecto2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPregunta,IdCuestionario,Respuesta,Estado")] Pregunta pregunta)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPregunta,IdCuestionario,pregunta,Estado")] Pregunta pregunta)
         {
             if (id != pregunta.IdPregunta)
             {
                 return NotFound();
             }
-
+                
             if (ModelState.IsValid)
             {
                 try

@@ -12,12 +12,10 @@ namespace proyecto2.Models.dbModels
         public ansksusContext()
         {
         }
-
         public ansksusContext(DbContextOptions<ansksusContext> options)
             : base(options)
         {
         }
-
         public virtual DbSet<Categoria> Categorias { get; set; } = null!;
         public virtual DbSet<Cuestionario> Cuestionarios { get; set; } = null!;
         public virtual DbSet<CuestionarioActivo> CuestionarioActivos { get; set; } = null!;
