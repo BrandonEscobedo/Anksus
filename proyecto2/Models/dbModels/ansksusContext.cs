@@ -35,7 +35,7 @@ namespace proyecto2.Models.dbModels
 
             modelBuilder.Entity<Cuestionario>(entity =>
             {
-                entity.HasKey(e => e.IdCuestionario)
+                entity.HasKey(e => e.IdCuestionariwwo)
                     .HasName("PK__cuestion__4A5CFD1B822640FC");
 
                 entity.Property(e => e.Titulo).HasDefaultValueSql("('title')");
