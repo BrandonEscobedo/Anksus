@@ -210,56 +210,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Preguntas/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ3VudGFzXENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Preguntas/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ3VudGFzXERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Preguntas/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ3VudGFzXERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Preguntas/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ3VudGFzXEVkaXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Preguntas/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZ3VudGFzXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Respuestas/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzcHVlc3Rhc1xDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Respuestas/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzcHVlc3Rhc1xEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Respuestas/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzcHVlc3Rhc1xEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Respuestas/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzcHVlc3Rhc1xFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Respuestas/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzcHVlc3Rhc1xJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Shared/_Preguntas.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QcmVndW50YXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/jesus/OneDrive/Documentos/anksus/proyecto2/Views/Shared/_RegisterLayout.cshtml]
