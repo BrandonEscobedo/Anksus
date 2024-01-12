@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/proyecto2.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css">
+
 </head>
 <body>
     <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" >
-                <img class="navbar-logo" src="Images/Logo.png" alt="!¿Ansks Us?!-Logo">
+                <img class="navbar-logo" src="~/Images/Logo.png" alt="!¿Ansks Us?!-Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Cuestionarios" asp-action="Create">Crear mi cuestionario</a>
+                        <a class="nav-link" asp-controller="Preguntas" asp-action="Index">Crear mi cuestionario</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="contactos" >Biblioteca pública</a>

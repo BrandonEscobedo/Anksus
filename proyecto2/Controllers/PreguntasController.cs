@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using proyecto2.Models.dbModels;
-using proyecto2.Models.DTO;
+using proyecto2.Models.ViewModel;
 
 namespace proyecto2.Controllers
 {
@@ -22,8 +22,13 @@ namespace proyecto2.Controllers
         // GET: Preguntas
         public async Task<IActionResult> Index()
         {
-            var ansksusContext = _context.Preguntas.Include(p => p.IdCuestionarioNavigation);
-            return View(await ansksusContext.ToListAsync());
+            var model = new CuestionarioHR();
+            model.cuestionario = _context.Cuestionarios.ToList();
+            model.Categorias = _context.Categorias.ToList();
+            model.Preguntas = _context.Preguntas.ToList();
+           
+            return View(model);
+          
         }
 
         // GET: Preguntas/Details/5
@@ -57,18 +62,10 @@ namespace proyecto2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPregunta,IdCuestionario,Respuesta,Estado")] preguntaDTO pregunta)
+        public async Task<IActionResult> Create([Bind("IdPregunta,IdCuestionario,pregunta,Estado")] Pregunta pregunta)
         {
             if (ModelState.IsValid)
             {
-                Pregunta pe = new Pregunta {
-                    IdPregunta = pregunta.IdPregunta,
-                    IdCuestionario = pregunta.IdCuestionario,
-                    pregunta=pregunta.pregunta
-                    
-                   
-                
-                };
                 _context.Add(pregunta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,7 +96,7 @@ namespace proyecto2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPregunta,IdCuestionario,Respuesta,Estado")] Pregunta pregunta)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPregunta,IdCuestionario,pregunta,Estado")] Pregunta pregunta)
         {
             if (id != pregunta.IdPregunta)
             {

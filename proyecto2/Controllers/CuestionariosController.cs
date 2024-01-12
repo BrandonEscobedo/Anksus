@@ -9,24 +9,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using proyecto2.Models;
 using proyecto2.Models.dbModels;
 using proyecto2.Models.DTO;
-using proyecto2.ViewModel;
-
+using proyecto2.Models.Interfaces;
+using proyecto2.Models.ViewModel;
 namespace proyecto2.Controllers
 {
 
     public class CuestionariosController : Controller
     {
+
+        List<Respuesta> ListaRespuestas = new List<Respuesta>();
         private readonly ansksusContext _context;
         private readonly UserManager<AplicationUser> _userManager;
-        private bool primeraEntrada = true;
-        private int IdCuestionario;
         List<Categoria> categorias= new List<Categoria>();
-        public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger)
+        private readonly IIdConteiner _IdConteiner;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CuestionariosController(ansksusContext context, UserManager<AplicationUser> usermanger )
         {
-
+             
             _context = context;
             _userManager = usermanger;
         }
@@ -34,9 +37,8 @@ namespace proyecto2.Controllers
         public async Task<IActionResult> Index()
         {
             var model = new CuestionarioHR();
-            model.cuest =  _context.Cuestionarios.ToList();
-            model.Preguntas2 = _context.Preguntas.ToList();
-            model.Respuestas2 = _context.Respuestas.ToList();
+            model.Preguntas = _context.Preguntas.ToList();
+            model.Respuestas = _context.Respuestas.ToList();
             return View(model);
         }
 
@@ -62,79 +64,130 @@ namespace proyecto2.Controllers
         }
 
         // GET: Cuestionarios/Create
-        public IActionResult Create()
+        public  IActionResult Create()
         {
-          
+           
             var model = new CuestionarioHR();
+            model.cuestionario = _context.Cuestionarios.ToList();
             model.Categorias = _context.Categorias.ToList();
-            model.Preguntas2 = _context.Preguntas.ToList();
-            model.cuest=_context.Cuestionarios.ToList();
-            model.CuestionarioExistente = false;
+            model.Preguntas = _context.Preguntas.ToList();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Categoria1");
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id");
-            Response.Cookies.Delete("MiCokkie");
             return View(model);
         }
-
-
         // POST: Cuestionarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
-        public async Task<IActionResult>  Create( CuestionarioHR cuestHR)
+        public async Task<IActionResult> Create( CuestionarioHR cuestHR, int idCuestionario )
         {
-            bool entrada = true;
-            Console.WriteLine("entrada 2" + entrada);
+
+  
             try
-            {   
-        var user = await _userManager.GetUserAsync(User);
-                Console.WriteLine((_context.Preguntas.Any(e => e.IdCuestionario == cuestHR.IdCuestionario)));
-                var existingcuestionario = await _context.Cuestionarios.FindAsync(idcuestionario);
-                    Cuestionario cuest = new Cuestionario
-                    {      
-                        Estado = true,                        
-                        IdCategoria = 1,
-                        Publico = true,
-                        IdUsuario = user.Id
-                    };
-                    idcuestionario = cuest.IdCuestionario;
-                Console.WriteLine("entrada" + primeraEntrada);
-                if(entrada==true)
+            {
+                idCuestionario = 0;
+                var user = await _userManager.GetUserAsync(User);
+                Cuestionario cuest = new Cuestionario();
+                cuest.Titulo = cuestHR.AgregarCuestionario.Titulo;
+                cuest.Estado = false;
+                    cuest.IdCategoria = 1;
+                cuest.IdUsuario = user.Id;
+                cuest.Publico = false;
+
+                if (idCuestionario==0)
                 {
-                    _context.Cuestionarios.Add(cuest);
-                   await _context.SaveChangesAsync();
-                    var idcuestionario1 = cuest.IdCuestionario;
-
-                    var cuestionarioCreado= await _context.Cuestionarios
-                        .Include(c=>c.IdCategoriaNavigation)
-                        .Include(c=>c.IdUsuarioNavigation)
-                        .FirstOrDefaultAsync(m=>m.IdCuestionario==idcuestionario1);
-                    Console.WriteLine(cuestHR.Preguntas2.Count(e=>e.IdCuestionario==idcuestionario1));
-
-                 return View(cuestionarioCreado);
+                 _context.Cuestionarios.Add(cuest);          
+                await _context.SaveChangesAsync();
+                    cuestHR.IdCuestionario = cuest.IdCuestionario;
+                    return Json(new {success=true});
                 }
 
                 else
                 {
-                    return Json(new { success = false, message = "Cuestionario Existente" });
-
-                }
-
+                    await EditarCuestionario(cuest.IdCuestionario, cuest);
+                    return Json(new { success = true,  message = "Editado Correctamente en Create" });
+                }               
             }
+              
             catch(Exception ex)
             {
                 return Json(new { success = false, message = "Error al crear el cuestionario", error = ex.Message });
+            }
+       
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CrearPreguntas(int CuestionarioId, CuestionarioHR cuestionarioHR)
+        {
+            List<Pregunta> preg = null;
+            try
+            {
+                int cues =0;
+                if (cues ==0)
+                {
+                    Console.WriteLine("error en id" + cuestionarioHR.AgregarCuestionario.IdCuestionario);
+                    Create();
+                    return Json(new {succes=false, message = "No se creo el cuestionario" });
+                }
+                else
+                {
+                    //Pregunta pregunta = new Pregunta
+                    //{
+                    //    IdCuestionario = _Idcuestionario,
+                    //    pregunta = PreguntasDTO.pregunta,
+                    //    Estado = false,
+                    //};
+
+                    //_context.Preguntas.Add(pregunta);
+                    //await _context.SaveChangesAsync();
+                    //_IdConteiner.SetIdPregunta(pregunta.IdPregunta);
+                    //var model = new CuestionarioHR();
+                    //preg = await _context.Preguntas.Where(e => e.IdCuestionario == _Idcuestionario).OrderByDescending(e => e.IdPregunta).ToListAsync();
+                    //var PreguntaActual = preg.FirstOrDefault();
+                    return Json(new { pregunta ="ad" });
+                        
+                }                   
+            }
+            catch (Exception ex) 
+            {
+                return Json(new { success = true, message = "Error al Agregar pregunta" + ex.Message.ToString() });
+
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> CrearRespuesta(int idPregunta, [FromBody] List <RespuestaDTO> RespuestasHR)
+        {
+            try
+            {
+                idPregunta = _IdConteiner.IdPregunta;
+                if (idPregunta == 0)
+                {
+                    return Json(new { message = "No se creo el cuestionario por respuesta" });
+
+                }
+                else
+                {
+                   
+            foreach(var respuesta in RespuestasHR)
+                    {
+                        var NuevaRespuesta = new Respuesta
+                        {
+                            respuesta = respuesta.respuesta,
+                            RCorrecta = false,
+                            IdPregunta = idPregunta
+                        };
+                        _context.Respuestas.Add(NuevaRespuesta);
+                        await _context.SaveChangesAsync();
+                    }
+                    return Json(new { success = true, message = "respuestas Agregadas Correctamente" });
+                };
+                  
+                
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al Agregar respuesta " + ex.Message.ToString() });
 
             }
 
-        }
-        private bool ObtenerPrimerEntrada()
-        {
-            var primeraEntradaCookie = Request.Cookies["MiCokkie"];
-            
-            bool.TryParse(primeraEntradaCookie,out  primeraEntrada);
-            return primeraEntrada;
         }
       public string cambiarnombre(string nombre)
         {
@@ -162,21 +215,15 @@ namespace proyecto2.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCuestionario,IdUsuario,IdCategoria,Estado,Titulo,Publico")] Cuestionario cuestionario)
+        public async Task<IActionResult> EditarCuestionario(int id, Cuestionario cuestionario)
         {
-            if (id != cuestionario.IdCuestionario)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
+           
                 try
                 {
-
+                Console.WriteLine("En editar 1: " + id);
                     _context.Update(cuestionario);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -189,8 +236,7 @@ namespace proyecto2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
+            
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", cuestionario.IdCategoria);
             ViewData["IdUsuario"] = new SelectList(_context.Users, "Id", "Id", cuestionario.IdUsuario);
             return View(cuestionario);

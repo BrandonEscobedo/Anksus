@@ -1,5 +1,4 @@
-﻿@using proyecto2
-
+﻿@using proyecto2.Models.ViewModel
 @model CuestionarioHR
 
 @{
@@ -12,48 +11,32 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publico)
-            </th>
-            <th>
-              Preguntas
-            </th>
-            <th>
-                respuestas
+
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.cuest ) {
+
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCuestionario)
+             
             </td>
   
             <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
+                
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Publico)
+            
             </td>
             <td>
 
-                    @foreach (var respuestas in Model.Preguntas2.Where(e=>e.IdCuestionario==item.IdCuestionario))
-                    {
+                   
 
-                            @Model.Preguntas2.Count(e => e.IdCuestionario == item.IdCuestionario)
-
-                                 
-                            @Model.Respuestas2.Count(e => e.IdPregunta == respuestas.IdPregunta)
+                         
               <br>
-                    }
+                    
                 </td>
         </tr>
-}
+
     </tbody>
 </table>
