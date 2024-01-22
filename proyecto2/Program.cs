@@ -12,7 +12,7 @@ builder.Services.AddDbContext<ansksusContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddIdentity<AplicationUser, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<AplicationUser , IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ansksusContext>()
    .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();

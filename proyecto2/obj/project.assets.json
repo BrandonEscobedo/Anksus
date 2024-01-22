@@ -11501,9 +11501,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\proyecto2.csproj",
-      "projectName": "proyecto2",
-      "projectPath": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\proyecto2.csproj",
+      "projectUniqueName": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\Anskus.server.csproj",
+      "projectName": "Anskus.server",
+      "projectPath": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\Anskus.server.csproj",
       "packagesPath": "C:\\Users\\jesus\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\jesus\\OneDrive\\Documentos\\anksus\\proyecto2\\obj\\",
       "projectStyle": "PackageReference",
@@ -11578,6 +11578,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.26, 6.0.26]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.26, 6.0.26]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.26, 6.0.26]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.26, 6.0.26]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -11586,7 +11604,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
